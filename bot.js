@@ -3,6 +3,21 @@ const client = new Discord.Client();
 var prefix = "+";
 var adminprefix = '+'
 
+client.on('guildMemberAdd', member=> {
+    member.addRole(member.guild.roles.find("name","' Sw  ,"));
+    });
+
+client.on('guildMemberAdd', member => {
+  member.guild.fetchInvites().then(guildInvites => {
+    const ei = invites[member.guild.id];
+    invites[member.guild.id] = guildInvites;
+    const invite = guildInvites.find(i => ei.get(i.code).uses < i.uses);
+    const inviter = client.users.get(invite.inviter.id);
+    const logChannel = member.guild.channels.find(channel => channel.name === "snow");
+    logChannel.send(`${member} Invited by: <@${inviter.id}>`);
+  });
+});
+
 client.on('message',async message => {
   if(message.content.startsWith("+setVoice")) {
   if(!message.guild.member(message.author).hasPermissions('MANAGE_CHANNELS')) return message.reply('? **ليس لديك الصلاحيات الكافية**');
